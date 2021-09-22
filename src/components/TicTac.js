@@ -29,7 +29,15 @@ export class TicTac extends Component {
 
     let state = this.state
     var newBoxes = state.boxes
-    if (newBoxes[pos] === '' && !state.gameFinished) {
+
+    let emptyCount = state.boxes.filter(x => x === '').length
+
+
+    if(state.gameFinished){
+      return
+    }
+
+    if (newBoxes[pos] === '') {
       newBoxes[pos] = state.nextTurn
       this.setState({ boxes: newBoxes })
       if (state.nextTurn === 'X') {
@@ -39,12 +47,20 @@ export class TicTac extends Component {
       }
 
       const winner = this.calculateWinner(newBoxes)
-      let status
+
       if (winner) {
         this.finishGame()
         this.setState({ winner: winner })
       }
-    } else {
+      if (emptyCount < 2) {
+        this.finishGame()
+      }
+
+    }else if(emptyCount>0){
+      
+      return
+    } 
+    else {
       this.finishGame()
     }
 
@@ -89,45 +105,41 @@ export class TicTac extends Component {
   render() {
 
     return (
-      <div className="container text-capitalize mt-4 mb-5">
-        <div class="row" style={style}>
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div class="row" style={style}>
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div class="row" style={style}>
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
+      <div className="container text-light pt-4 pb-4">
+        <div className=" m-auto">
+          <div className="game-board mb-4">
+            {this.renderSquare(0)}
+            {this.renderSquare(1)}
+            {this.renderSquare(2)}
+
+            {this.renderSquare(3)}
+            {this.renderSquare(4)}
+            {this.renderSquare(5)}
+
+            {this.renderSquare(6)}
+            {this.renderSquare(7)}
+            {this.renderSquare(8)}
+          </div>
         </div>
 
-        <div className="row mt-4 bg-secondary p-4 rounded text-light">
-
+        <div className="m-auto h2">
           {!this.state.gameFinished &&
-            <div className="col-8 h2"> Next player: {this.state.nextTurn}</div>}
+            <div> Next player: {this.state.nextTurn}</div>}
 
           {this.state.gameFinished && this.state.winner &&
-            <div className="col-8 h2 text-warning"> Winner: {this.state.winner}</div>}
+            <div className="text-warning"> Winner: {this.state.winner}</div>}
 
           {this.state.gameFinished && this.state.winner === '' &&
-            <div className="col-8 h2 text-info">Game Draw</div>}
+            <div className="text-info">Game Draw</div>}
 
-          <button className="btn btn-dark col-2 ms-auto"
+
+          <button className="btn btn-primary mt-4"
             onClick={this.restartGame}>Restart</button>
         </div>
 
       </div>
     )
   }
-}
-
-const style = {
-  height: '100px',
 }
 
 export default TicTac

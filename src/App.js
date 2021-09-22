@@ -13,11 +13,11 @@ class App extends Component {
 
 	render() {
 		return (
-			<div className="text-center col-md-8 col-10 m-auto">
-				<div className="container  mt-4 p-2 bg-secondary rounded text-light h2">
+			<div className="text-center text-light">
+				<div className="container  mt-2 h2">
 					Tic Tac Toe
 				</div>
-				<div className="text-center m-auto">
+				<div className="m-auto">
 					<TicTac />
 				</div>
 
